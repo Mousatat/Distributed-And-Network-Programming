@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+service lab04{
+    rpc size(SizeRequest) returns (SizeResponse) {}
+    rpc put(PutRequest) returns (PutResponse) {}
+    rpc peek(PeekRequest) returns (PeekResponse) {}
+    rpc pop(PopRequest) returns (PopResponse) {}
+}
+
+message SizeResponse{
+    string text = 1;
+}
+message SizeRequest{
+    string response = 1;
+}
+message PutResponse{
+    string text = 1;
+}
+message PutRequest{
+    string text = 1;
+    string delim = 2;
+}
+message PeekResponse{
+    string response = 1;
+}
+message PeekRequest{
+    string text = 1;
+}
+message PopResponse{
+    string response = 1;
+}
+message PopRequest{
+    string response = 1;
+}
