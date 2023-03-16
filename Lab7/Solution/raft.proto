@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "edu.sjsu.cs249.raft";
+
+service RaftServer {
+    rpc RequestVote(RequestVoteRequest) returns (RequestVoteResponse);
+    rpc AppendEntries(AppendEntriesRequest) returns (AppendEntriesResponse);
+    // these next two RPCs are sent from client to the leader
+    rpc SetVal(SetValRequest) returns (SetValResponse);
+    rpc GetVal(GetValRequest) returns (GetValResponse);
+    rpc GetLeader(Empty) returns (GetLeaderResponse);
+    rpc Suspend (SuspendRequest) returns (SuspendResponse);
+    rpc Entrys (Entry) returns (EntryResponse);
+}
+
+package raft;
+
+message RequestVoteRequest {
+    uint64 term = 1;
+    uint32 cadidateId = 2;
+    uint64 lastLogIndex = 3;
+    uint64 lastLogTerm = 4;
+}
+
+
+message RequestVoteResponse {
+    uint64 term = 1;
+    bool voteGranted = 2;
+}
+
+message AppendEntriesRequest {
+    uint64 term = 1;
+    uint32 leaderId = 2;
+    uint64 prevLogIndex = 3;
+    uint64 prevLogTerm = 4;
+    Entry entry = 5;
+    uint64 leaderCommit = 6;
+}
+
+message AppendEntriesResponse {
+    uint64 term = 1;
+    bool success = 2;
+}
+
+message Entry {
+    uint64 term = 1;
+    uint64 index = 2;
+    string key = 3;
+    string value = 4;
+}
+
+message EntryResponse {
+    bool suc = 1;
+}
+
+message SetValRequest {
+    string key = 1;
+    string value = 2;
+}
+
+message SetValResponse {
+    bool suc = 1;
+}
+
+message GetValRequest {
+    string key = 1;
+}
+
+message GetValResponse {
+    bool suc = 1;
+    string value = 2;
+}
+message Empty {
+    string empty = 1;
+}
+message GetLeaderResponse {
+    string leader = 1;
+}
+
+message SuspendRequest {
+    int32 period = 1;
+}
+
+message SuspendResponse {
+    string res = 1;
+}
